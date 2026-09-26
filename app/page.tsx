@@ -489,10 +489,20 @@ export default function Home() {
     setSending(true)
     setFormError('')
     try {
-      const response = await fetch('/api/contact', {
+      const fields = Object.fromEntries(new FormData(e.currentTarget))
+      const response = await fetch('https://formsubmit.co/ajax/hudsonvalleypaintworks@proton.me', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(e.currentTarget))),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...fields,
+          _subject: 'New Hudson Valley Paintworks inquiry',
+          _replyto: fields.email,
+          _captcha: 'true',
+          _honey: '',
+        }),
       })
       const result = await response.json()
       if (!response.ok) throw new Error(result.error || 'Something went wrong.')
