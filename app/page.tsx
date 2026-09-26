@@ -590,7 +590,7 @@ export default function Home() {
               <a className="button dark" href="tel:+15188474071">
                 Call 1 518 847 4071 ↗
               </a>
-              <a className="button light" href="mailto:hello@hardypaintworks.com">
+              <a className="button light" href="mailto:hudsonvalleypaintworks@proton.me">
                 Email Philip ↗
               </a>
             </div>
@@ -914,7 +914,7 @@ export default function Home() {
         alt="Abstract hand-painted wall mural in warm pink, umber, ochre, and navy tones"
       />
     </div>
-    <section className="contact" id="contact"><div><div className="section-label">05 / Let’s make a plan</div><h2>MAKE THE<br /><i>SPACE FEEL</i><br />RIGHT.</h2><p>Tell us a little about your project. Photos are welcome.</p><a className="contact-phone" href="tel:+15188474071">1 518 847 4071 ↗</a><a className="contact-email" href="mailto:hello@hardypaintworks.com">hello@hardypaintworks.com ↗</a></div><form onSubmit={submit}>{sent ? <div className="thanks"><span>✳</span><h3>Thank you.</h3><p>Your note is in. We’ll be in touch soon.</p></div> : <><label>Name<input required name="name" /></label><label>Email<input required type="email" name="email" /></label><label>Tell us about the project<textarea required name="message" rows={3} /></label><input className="form-trap" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" /><button className="button light" type="submit" disabled={sending}>{sending ? 'Sending…' : <>Send inquiry <span>↗</span></>}</button>{formError && <p className="form-error" role="alert">{formError}</p>}</>}</form></section>
+    <section className="contact" id="contact"><div><div className="section-label">05 / Let’s make a plan</div><h2>MAKE THE<br /><i>SPACE FEEL</i><br />RIGHT.</h2><p>Tell us a little about your project. Photos are welcome.</p><a className="contact-phone" href="tel:+15188474071">1 518 847 4071 ↗</a><a className="contact-email" href="mailto:hudsonvalleypaintworks@proton.me">hudsonvalleypaintworks@proton.me ↗</a></div><form onSubmit={submit}>{sent ? <div className="thanks"><span>✳</span><h3>Thank you.</h3><p>Your note is in. We’ll be in touch soon.</p></div> : <><label>Name<input required name="name" /></label><label>Email<input required type="email" name="email" /></label><label>Tell us about the project<textarea required name="message" rows={3} /></label><input className="form-trap" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" /><button className="button light" type="submit" disabled={sending}>{sending ? 'Sending…' : <>Send inquiry <span>↗</span></>}</button>{formError && <p className="form-error" role="alert">{formError}</p>}</>}</form></section>
 
     <footer><a className="logo" href="#top"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></a><p>Kingston · Woodstock · Saugerties · Rhinebeck<br />Red Hook · New Paltz · Hudson Valley</p><p><a href="tel:+15188474071">Call for a free estimate<br />1 518 847 4071 ↗</a><br />© 2026 Hudson Valley Paintworks<br /><a href="#contact">Send an inquiry ↗</a></p></footer>
     <a className="sticky-cta" href="tel:+15188474071">Call for a free estimate <span>↗</span></a>
@@ -1121,8 +1121,8 @@ export default function Home() {
           <a className="contact-phone" href="tel:+15188474071">
             1 518 847 4071 ↗
           </a>
-          <a className="contact-email" href="mailto:hello@hardypaintworks.com">
-            hello@hardypaintworks.com ↗
+          <a className="contact-email" href="mailto:hudsonvalleypaintworks@proton.me">
+            hudsonvalleypaintworks@proton.me ↗
           </a>
         </div>
 
@@ -1208,7 +1208,7 @@ export default function Home() {
                     {formError}
                   </p>
                   <p className="form-fallback">
-                    Direct line: <a href="tel:+15188474071">1 518 847 4071</a> · Email: <a href="mailto:hello@hardypaintworks.com">hello@hardypaintworks.com</a>
+                    Direct line: <a href="tel:+15188474071">1 518 847 4071</a> · Email: <a href="mailto:hudsonvalleypaintworks@proton.me">hudsonvalleypaintworks@proton.me</a>
                   </p>
                 </div>
               )}
