@@ -34,7 +34,6 @@ const jsonLd = {
   name: 'Hudson Valley Paintworks',
   description: 'Fine residential and commercial painting, decorative finishes, custom murals, and architectural color design in the Hudson Valley.',
   telephone: '+1-518-847-4071',
-  email: 'hudsonvalleypaintworks@proton.me',
   areaServed: [
     { '@type': 'AdministrativeArea', name: 'Kingston, NY' },
     { '@type': 'AdministrativeArea', name: 'Rhinebeck, NY' },
