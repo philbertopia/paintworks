@@ -452,8 +452,29 @@ function ServicesShowcase() {
   </div>
 }
 
+const heroSlides = [
+  { image: '/images/hero-mural-pink-botanical.png', alt: 'Finished abstract botanical wall mural in ochre, pink, rust, and olive' },
+  { image: '/images/hero-mural-forest-landscape.png', alt: 'Finished hand-painted forest landscape mural' },
+  { image: '/images/hero-mural-geometric.png', alt: 'Finished geometric wall mural in cobalt, coral, moss, and butter yellow' },
+]
+
 function HeroStill() {
-  return <div className="hero-still" aria-label="Geometric hand-painted mural in a warm interior"><div className="hero-still-overlay" /><div className="hero-still-credit">HAND-PAINTED / HUDSON VALLEY</div></div>
+  const [activeSlide, setActiveSlide] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length)
+    }, 6000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return <div className="hero-still" aria-label="Rotating selection of finished hand-painted murals">
+    <div className="hero-still-slides">
+      {heroSlides.map((slide, index) => <img className={index === activeSlide ? 'active' : ''} style={{ opacity: index === activeSlide ? 1 : 0 }} src={slide.image} alt={slide.alt} key={slide.image} />)}
+    </div>
+    <div className="hero-still-overlay" />
+    <div className="hero-still-credit">HAND-PAINTED / HUDSON VALLEY</div>
+  </div>
 }
 
 export default function Home() {
