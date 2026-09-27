@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 export const runtime = 'nodejs'
 
 const MAX_FILES = 3
-const MAX_FILE_BYTES = 8 * 1024 * 1024
+const MAX_FILE_BYTES = 4 * 1024 * 1024
 const MAX_TOTAL_BYTES = 20 * 1024 * 1024
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   for (let index = 0; index < files.length; index += 1) {
     const file = files[index]
     if (!ALLOWED_TYPES.has(file.type) || file.size > MAX_FILE_BYTES) {
-      return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 8 MB each.' }, { status: 400 })
+      return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
     }
 
     const source = Buffer.from(await file.arrayBuffer())
