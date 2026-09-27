@@ -28,7 +28,6 @@ export default function FlyerPage() {
       </section>
 
       <section className="flyer-message">
-        <p className="flyer-services">INTERIORS / EXTERIORS / MURALS + CUSTOM ART</p>
         <h1>Painting with an artist&apos;s eye.</h1>
         <p className="flyer-benjamin">PAINTED WITH BENJAMIN MOORE COLORS</p>
       </section>
