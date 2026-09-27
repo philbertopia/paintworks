@@ -456,6 +456,9 @@ const heroSlides = [
   { image: '/images/hero-mural-pink-botanical.png', alt: 'Finished abstract botanical wall mural in ochre, pink, rust, and olive' },
   { image: '/images/hero-mural-forest-landscape.png', alt: 'Finished hand-painted forest landscape mural' },
   { image: '/images/hero-mural-geometric.png', alt: 'Finished geometric wall mural in cobalt, coral, moss, and butter yellow' },
+  { image: '/images/hero-mural-birds.png', alt: 'Finished hand-painted birds and branches mural' },
+  { image: '/images/hero-mural-cats.png', alt: 'Finished playful hand-painted cartoon cat mural' },
+  { image: '/images/hero-mural-soft-landscape.png', alt: 'Finished soft abstract landscape mural in lavender and peach' },
 ]
 
 function HeroStill() {
