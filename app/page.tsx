@@ -778,6 +778,7 @@ export default function Home() {
           <figure><img src="/images/art-in-the-home.png" alt="Artwork and a hand-painted wall finish in a warm home" /><figcaption>Art in the home / lived with beautifully</figcaption></figure>
           <figure className="artist-image-mural"><img src="/images/artist-home-tree-mural.png" alt="Hand-painted tree mural spanning the wall of a warm Hudson Valley home" /><figcaption>Made for living / a mural at home</figcaption></figure>
         </div>
+        <div className="artist-image-note">Painting as a form of looking—and living beautifully.</div>
        </section>
       <ArtGallerySection />
     {false && <>
