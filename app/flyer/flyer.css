@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,600;1,700&display=swap');
+
+:root{--paper:#ede9df;--ink:#1d201d;--moss:#31483c;--rust:#a85237;--ochre:#bf8e3e}
+
+*{box-sizing:border-box}
+body{margin:0;background:#c9c7bc;color:var(--ink);font-family:'DM Sans',Arial,sans-serif}
+.flyer-page{width:8.5in;min-height:11in;margin:24px auto;background:var(--paper);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.16)}
+.flyer-header{height:1.55in;padding:22px 34px;display:flex;align-items:flex-start;background:var(--paper);position:relative;overflow:hidden}
+.flyer-header:after{content:'';position:absolute;right:-40px;top:-85px;width:190px;height:190px;border-radius:50%;background:#e6bd55;opacity:.9}
+.flyer-logo{position:relative;z-index:1;display:inline-block;padding-left:39px;color:var(--ink);font-size:30px;letter-spacing:.12em;font-weight:800;line-height:.93;text-decoration:none}
+.flyer-logo:before{content:'';position:absolute;left:0;top:3px;width:24px;height:32px;border-radius:50% 50% 50% 0;background:linear-gradient(150deg,#ffd968 0 28%,#f47761 29% 58%,#7e63d2 59% 78%,#365a70 79%);transform:rotate(135deg);box-shadow:4px 4px 0 rgba(0,0,0,.22)}
+.flyer-logo .logo-region{display:block;font-size:.58em;letter-spacing:.2em;line-height:1.1;color:#ffd968}
+.flyer-logo>span:last-child{display:block;margin-top:9px;font:9px 'DM Mono';letter-spacing:.13em}
+.flyer-work{display:grid;grid-template-columns:1.4fr .8fr;height:4.35in;gap:10px;padding:0 20px;background:var(--paper)}
+.flyer-work img{display:block;width:100%;height:100%;object-fit:cover}
+.flyer-work-main{overflow:hidden}
+.flyer-work-side{display:grid;grid-template-rows:1fr 1fr;gap:10px;overflow:hidden}
+.flyer-message{padding:22px 34px 24px;background:var(--paper);border-top:1px solid #b9b7ab}
+.flyer-services{margin:0;font:10px 'DM Mono';letter-spacing:.08em}
+.flyer-message h1{margin:15px 0 18px;font:italic 600 36px/1 'Playfair Display',Georgia,serif;letter-spacing:-.04em}
+.flyer-benjamin{margin:0;color:var(--moss);font:700 10px 'DM Sans';letter-spacing:.12em}
+.flyer-contact{min-height:3.4in;padding:28px 34px;background:var(--moss);color:var(--paper);display:flex;justify-content:space-between;align-items:flex-start}
+.flyer-contact-label{margin:0 0 10px;font:10px 'DM Mono';letter-spacing:.1em;color:#d9e0d6}
+.flyer-phone{display:block;color:var(--paper);font:700 38px/1 'DM Sans';letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+.flyer-qr-block{text-align:center}
+.flyer-qr-block img{display:block;width:1.55in;height:1.55in;margin-top:7px;background:white;padding:7px}
+@media print{body{background:white}.flyer-page{margin:0;box-shadow:none;page-break-after:always}}
+@media(max-width:800px){.flyer-page{width:100%;min-height:0;margin:0;box-shadow:none}.flyer-header{height:155px}.flyer-work{height:55vw}.flyer-message h1{font-size:32px}.flyer-phone{font-size:30px}.flyer-contact{min-height:240px}}

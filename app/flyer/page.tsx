@@ -1,0 +1,48 @@
+import './flyer.css'
+
+function PaintworksLogo() {
+  return (
+    <a className="flyer-logo" href="#contact" aria-label="Hudson Valley Paintworks">
+      <span className="logo-region">HUDSON VALLEY</span>
+      PAINTWORKS
+      <span>FINE PAINTING &amp; DESIGN</span>
+    </a>
+  )
+}
+
+export default function FlyerPage() {
+  return (
+    <main className="flyer-page">
+      <section className="flyer-header">
+        <PaintworksLogo />
+      </section>
+
+      <section className="flyer-work" aria-label="Completed painting and mural work">
+        <div className="flyer-work-main">
+          <img src="/images/completed-botanical-bird-mural.png" alt="Completed hand-painted botanical mural" />
+        </div>
+        <div className="flyer-work-side">
+          <img src="/images/completed-interior-painting.png" alt="Completed interior painting project" />
+          <img src="/images/completed-decorative-finish.png" alt="Completed decorative wall finish" />
+        </div>
+      </section>
+
+      <section className="flyer-message">
+        <p className="flyer-services">INTERIORS / EXTERIORS / MURALS + CUSTOM ART</p>
+        <h1>Painting with an artist&apos;s eye.</h1>
+        <p className="flyer-benjamin">PAINTED WITH BENJAMIN MOORE COLORS</p>
+      </section>
+
+      <section className="flyer-contact">
+        <div>
+          <p className="flyer-contact-label">CALL FOR A FREE ESTIMATE</p>
+          <a className="flyer-phone" href="tel:+15188474071">1 518 847 4071</a>
+        </div>
+        <div className="flyer-qr-block">
+          <p className="flyer-contact-label">SCAN TO EXPLORE</p>
+          <img src="/qr-code-paintworks-correct.png" alt="QR code linking to Hudson Valley Paintworks" />
+        </div>
+      </section>
+    </main>
+  )
+}
