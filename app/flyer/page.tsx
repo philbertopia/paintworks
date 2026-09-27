@@ -30,6 +30,10 @@ export default function FlyerPage() {
       <section className="flyer-message">
         <h1>Painting with an artist&apos;s eye.</h1>
         <p className="flyer-benjamin">PAINTED WITH BENJAMIN MOORE COLORS</p>
+        <div className="flyer-service-copy">
+          <strong>RESIDENTIAL + COMMERCIAL PAINTING</strong>
+          <p>Careful interior and exterior painting for homes, businesses, and hospitality spaces—plus cabinet refinishing, murals, and decorative finishes.</p>
+        </div>
       </section>
 
       <section className="flyer-contact">
