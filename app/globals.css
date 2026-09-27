@@ -897,3 +897,6 @@ section.color {
 @keyframes lavaRiseThree{0%{transform:translate(0,0) rotate(-8deg) scale(.82)}55%{transform:translate(-10vw,-48vh) rotate(25deg) scale(1.2)}100%{transform:translate(-28vw,-88vh) rotate(-12deg) scale(.86)}}
 @keyframes lavaRiseFour{0%{transform:translate(0,0) rotate(10deg) scale(.75)}55%{transform:translate(-18vw,-40vh) rotate(-18deg) scale(1.14)}100%{transform:translate(-34vw,-80vh) rotate(16deg) scale(.9)}}
 @media(prefers-reduced-motion:reduce){.lava-blob{animation:none}}
+
+/* Contact is intentionally form-only; no direct phone links are shown. */
+a[href^='tel:'],.header-phone,.call-link,.contact-phone,.ui-sheet-phone,.sticky-cta{display:none!important}

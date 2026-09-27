@@ -537,9 +537,9 @@ export default function Home() {
       setFormError(
         error instanceof Error
           ? error.message
-          : 'Please call us directly at 1 518 847 4071 to get in touch.'
+          : 'Please try again or send your inquiry through the contact form.'
       )
-      setFormError(error instanceof Error ? error.message : 'Please call us directly to get in touch.')
+      setFormError(error instanceof Error ? error.message : 'Please try again or send your inquiry through the contact form.')
     } finally {
       setSending(false)
     }

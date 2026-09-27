@@ -42,6 +42,6 @@ export async function POST(request: Request) {
     }),
   })
 
-  if (!response.ok) return NextResponse.json({ error: 'We could not send your message right now. Please call us directly.' }, { status: 502 })
+  if (!response.ok) return NextResponse.json({ error: 'We could not send your message right now. Please try again or use the contact form.' }, { status: 502 })
   return NextResponse.json({ ok: true })
 }
