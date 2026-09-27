@@ -772,7 +772,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="artist-image-note">Painting as a form of looking—and living beautifully.</div>
+        <div className="artist-image-note">Painting as living beautifully.</div>
         <div className="maker-process artist-image-grid">
           <ArtistImageCarousel />
           <figure><img src="/images/artist-studio-hand.png" alt="Artist's hand painting a textured panel in the studio" /><figcaption>In the studio / touch and texture</figcaption></figure>
