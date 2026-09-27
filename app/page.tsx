@@ -1200,9 +1200,9 @@ export default function Home() {
               </label>
 
               <label className="photo-upload-label">
-                Photos (optional)
+                Project photos (optional)
                 <input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple />
-                <small>Up to 3 JPG, PNG, or WebP photos; 4 MB each.</small>
+                <small>Attach up to 3 photos: JPG, PNG, or WebP only. Maximum 4 MB per photo and 20 MB total. Please do not upload documents or sensitive personal information.</small>
               </label>
 
               <input
