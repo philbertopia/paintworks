@@ -42,9 +42,6 @@ export async function POST(request: Request) {
   if (files.reduce((total, file) => total + file.size, 0) > MAX_TOTAL_BYTES) {
     return NextResponse.json({ error: 'Please keep all uploaded photos under 20 MB total.' }, { status: 400 })
   }
-  if (files.length && !process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json({ error: 'Photo uploads are not configured yet. Please submit without photos or try again later.' }, { status: 503 })
-  }
 
   const attachments: { filename: string; content: string }[] = []
   const storedPhotos: string[] = []
