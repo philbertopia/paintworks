@@ -42,6 +42,10 @@ export default function FlyerPage() {
           <p className="flyer-contact-label">SCAN TO EXPLORE</p>
           <img src="/qr-code-paintworks-correct.png" alt="QR code linking to Hudson Valley Paintworks" />
         </div>
+        <div className="flyer-contact-bottom">
+          <PaintworksLogo />
+          <span>FINE PAINTING / DESIGN / MURALS</span>
+        </div>
       </section>
     </main>
   )
