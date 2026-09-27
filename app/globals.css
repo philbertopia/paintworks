@@ -688,7 +688,7 @@ section.color {
 .artist-image-feature{position:relative;overflow:hidden}
 .artist-image-feature img{content:url('/images/philip-hardy-mural-studio.png')}
 .artist-image-feature:before{content:'ARTISTS AT WORK';position:absolute;top:22px;left:22px;z-index:2;color:#fff8e9;font:10px 'DM Mono';letter-spacing:.12em;text-transform:uppercase}
-.artist-image-feature:after{content:'Painting as a form of looking.';position:absolute;left:22px;bottom:42px;z-index:2;color:#fff8e9;font:italic 26px 'Playfair Display';text-shadow:0 2px 12px rgba(0,0,0,.45)}
+.artist-image-feature:after{content:'Painting as a form of looking—and living beautifully.';position:absolute;left:22px;bottom:42px;z-index:2;color:#fff8e9;font:italic 26px 'Playfair Display';text-shadow:0 2px 12px rgba(0,0,0,.45)}
 .artist-image-feature:after{display:none}
 .artist-image-note{position:relative;isolation:isolate;width:100%;margin:92px auto 42px;text-align:center;font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,88px);font-style:italic;font-weight:600;line-height:.95;color:var(--ink);max-width:none;letter-spacing:-.045em}
 .artist-image-note:before,.artist-image-note:after{content:'';position:absolute;z-index:-1;border-radius:58% 42% 64% 36%;filter:blur(2px);mix-blend-mode:multiply;pointer-events:none}
