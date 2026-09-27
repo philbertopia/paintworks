@@ -513,20 +513,13 @@ export default function Home() {
     setSending(true)
     setFormError('')
     try {
-      const fields = Object.fromEntries(new FormData(e.currentTarget))
-      const response = await fetch('https://formsubmit.co/ajax/hudsonvalleypaintworks@proton.me', {
+      const formData = new FormData(e.currentTarget)
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...fields,
-          _subject: 'New Hudson Valley Paintworks inquiry',
-          _replyto: fields.email,
-          _captcha: 'true',
-          _honey: '',
-        }),
+        body: formData,
       })
       const result = await response.json()
       if (!response.ok) throw new Error(result.error || 'Something went wrong.')
@@ -1169,10 +1162,6 @@ export default function Home() {
 
               <div className="form-grid">
                 <label>
-                  Phone Number
-                  <input type="tel" name="phone" placeholder="518-847-4071" />
-                </label>
-                <label>
                   Location
                   <select name="location" defaultValue="Kingston">
                     <option value="Kingston">Kingston</option>
@@ -1185,19 +1174,18 @@ export default function Home() {
                     <option value="Other Hudson Valley">Other Hudson Valley</option>
                   </select>
                 </label>
+                <label>
+                  Service of interest
+                  <select name="service" defaultValue="Interior painting">
+                    <option value="Interior painting">Interior painting</option>
+                    <option value="Exterior painting">Exterior painting</option>
+                    <option value="Murals + custom art">Murals + custom art</option>
+                    <option value="Cabinet refinishing">Cabinet refinishing</option>
+                    <option value="Decorative finishes">Decorative finishes</option>
+                    <option value="Color consultation">Color consultation</option>
+                  </select>
+                </label>
               </div>
-
-              <label>
-                Service of interest
-                <select name="service" defaultValue="Interior painting">
-                  <option value="Interior painting">Interior painting</option>
-                  <option value="Exterior painting">Exterior painting</option>
-                  <option value="Murals + custom art">Murals + custom art</option>
-                  <option value="Cabinet refinishing">Cabinet refinishing</option>
-                  <option value="Decorative finishes">Decorative finishes</option>
-                  <option value="Color consultation">Color consultation</option>
-                </select>
-              </label>
 
               <label>
                 Tell us about the project *
@@ -1209,6 +1197,12 @@ export default function Home() {
                   value={projectMessage}
                   onChange={(e) => setProjectMessage(e.target.value)}
                 />
+              </label>
+
+              <label className="photo-upload-label">
+                Photos (optional)
+                <input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple />
+                <small>Up to 3 JPG, PNG, or WebP photos; 8 MB each.</small>
               </label>
 
               <input
@@ -1227,9 +1221,6 @@ export default function Home() {
                 <div className="form-error-box">
                   <p className="form-error" role="alert">
                     {formError}
-                  </p>
-                  <p className="form-fallback">
-                    Direct line: <a href="tel:+15188474071">1 518 847 4071</a>
                   </p>
                 </div>
               )}

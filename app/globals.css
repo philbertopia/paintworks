@@ -900,3 +900,5 @@ section.color {
 
 /* Contact is intentionally form-only; no direct phone links are shown. */
 a[href^='tel:'],.header-phone,.call-link,.contact-phone,.ui-sheet-phone,.sticky-cta{display:none!important}
+.photo-upload-label input[type='file']{display:block;width:100%;margin-top:10px;color:var(--paper);font:13px 'DM Sans'}
+.photo-upload-label small{display:block;margin-top:8px;color:#bbbdb5;font:10px 'DM Mono';letter-spacing:.02em}
