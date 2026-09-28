@@ -46,9 +46,9 @@ export async function POST(request: Request) {
   const current = attempts.get(clientKey)
   if (!current || current.resetAt <= now) {
     if (attempts.size > 2000) {
-      for (const [key, entry] of attempts) {
+      attempts.forEach((entry, key) => {
         if (entry.resetAt <= now) attempts.delete(key)
-      }
+      })
     }
     attempts.set(clientKey, { count: 1, resetAt: now + RATE_WINDOW_MS })
   } else {
