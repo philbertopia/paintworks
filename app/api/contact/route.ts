@@ -88,12 +88,19 @@ export async function POST(request: Request) {
   const contactEmail = process.env.CONTACT_EMAIL
   if (!contactEmail) return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
 
-  const response = await fetch(`https://formsubmit.co/${encodeURIComponent(contactEmail)}`, {
-    method: 'POST',
-    headers: { Accept: 'application/json' },
-    body: outgoing,
-  })
-
-  if (!response.ok) return NextResponse.json({ error: 'We could not send your message right now. Please try again through the form.' }, { status: 502 })
-  return NextResponse.json({ ok: true })
+  try {
+    const response = await fetch(`https://formsubmit.co/${encodeURIComponent(contactEmail)}`, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: outgoing,
+    })
+    if (!response.ok) {
+      console.error('FormSubmit contact email failed', response.status, await response.text())
+      return NextResponse.json({ error: 'We could not send your message right now. Please try again through the form.' }, { status: 502 })
+    }
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error('FormSubmit request failed', error)
+    return NextResponse.json({ error: 'The email service could not be reached. Please try again in a moment.' }, { status: 502 })
+  }
 }
