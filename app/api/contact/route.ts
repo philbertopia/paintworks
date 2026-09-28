@@ -85,11 +85,13 @@ export async function POST(request: Request) {
     outgoing.append('attachment', new Blob([optimized], { type: 'image/jpeg' }), `project-photo-${index + 1}.jpg`)
   }
 
-  const contactEmail = process.env.CONTACT_EMAIL
-  if (!contactEmail) return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
+  const contactEmail = process.env.CONTACT_EMAIL?.trim()
+  if (!contactEmail || !/^\S+@\S+\.\S+$/.test(contactEmail)) {
+    return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
+  }
 
   try {
-    const response = await fetch(`https://formsubmit.co/${encodeURIComponent(contactEmail)}`, {
+    const response = await fetch(`https://formsubmit.co/${contactEmail}`, {
       method: 'POST',
       headers: { Accept: 'application/json' },
       body: outgoing,
