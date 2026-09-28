@@ -516,6 +516,17 @@ export default function Home() {
     try {
       const formData = new FormData(form)
       const hasPhotos = Boolean(form.querySelector<HTMLInputElement>('input[name="attachment"]')?.files?.length)
+      formData.set('_captcha', 'false')
+      formData.set('_url', 'https://paintworks-nine.vercel.app/')
+      for (const [name, value] of [['_captcha', 'false'], ['_url', 'https://paintworks-nine.vercel.app/']] as const) {
+        if (!form.querySelector(`[name="${name}"]`)) {
+          const input = document.createElement('input')
+          input.type = 'hidden'
+          input.name = name
+          input.value = value
+          form.appendChild(input)
+        }
+      }
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
