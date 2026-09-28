@@ -36,17 +36,10 @@ export default function FlyerPage() {
       </section>
 
       <section className="flyer-contact">
-        <div>
-          <p className="flyer-contact-label">START A PROJECT</p>
-          <p className="flyer-contact-copy">Explore the work and send an inquiry online.</p>
-        </div>
         <div className="flyer-qr-block">
-          <p className="flyer-contact-label">SCAN TO EXPLORE</p>
+          <p className="flyer-contact-label">SCAN TO CONTACT</p>
           <img src="/qr-code-paintworks-correct.png" alt="QR code linking to Hudson Valley Paintworks" />
-        </div>
-        <div className="flyer-contact-bottom">
-          <PaintworksLogo />
-          <span>FINE PAINTING / DESIGN / MURALS</span>
+          <p className="flyer-contact-copy">Email us to get a hold of us.</p>
         </div>
       </section>
     </main>
