@@ -27,7 +27,7 @@ export default function GalleryPage() {
   return <main className="gallery-page">
     <header className="site-header">
       <Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></Link>
-      <nav><Link href="/">Home</Link><Link href="/#services">Painting</Link><Link href="/gallery">Gallery</Link><Link href="/#color">Color + Design</Link></nav>
+    <nav><Link href="/">Home</Link><Link href="/#services">Painting</Link><Link href="/gallery">Gallery</Link></nav>
       <a className="header-phone" href="tel:+15188474071">Call for a free estimate · 1 518 847 4071</a>
       <Link className="header-cta" href="/#contact">Get a free estimate <span>↗</span></Link>
     </header>

@@ -601,7 +601,6 @@ export default function Home() {
         <nav className="desktop-nav">
           <a href="#work">Work</a>
           <a href="#services">Painting</a>
-          <a href="#color">Color + Design</a>
           <a href="#contact">Contact</a>
         </nav>
         <a className="header-phone" href="tel:+15188474071">
@@ -625,7 +624,7 @@ export default function Home() {
     {false && <>
     <header className="site-header">
       <a className="logo" href="#top">HARDY PAINTWORKS<span>FINE PAINTING & DESIGN</span></a>
-      <nav><a href="#work">Work</a><a href="#services">Painting</a><a href="#color">Color + Design</a></nav>
+      <nav><a href="#work">Work</a><a href="#services">Painting</a></nav>
       <a className="header-phone" href="tel:+15188474071">Call for a free estimate · 1 518 847 4071</a><a className="header-cta" href="#contact">Get an estimate <span>↗</span></a>
     </header>
     <section className="hero" id="top">
@@ -649,9 +648,6 @@ export default function Home() {
               <a href="#services" onClick={() => setMobileMenuOpen(false)}>
                 02 / Painting Services
               </a>
-              <a href="#color" onClick={() => setMobileMenuOpen(false)}>
-                03 / Color Consultation
-              </a>
               <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
                 04 / Request an Estimate
               </a>
@@ -673,7 +669,7 @@ export default function Home() {
 
       <header className="site-header site-header-overlay">
         <a className="logo" href="#top"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></a>
-        <nav className="desktop-nav"><a href="#work">Work</a><a href="#services">Painting</a><a href="#gallery">Gallery</a><a href="#color">Color + Design</a><a href="#contact">Contact</a></nav>
+        <nav className="desktop-nav"><a href="#work">Work</a><a href="#services">Painting</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a></nav>
         <a className="header-phone" href="tel:+15188474071">Call for a free estimate · 1 518 847 4071</a>
         <a className="header-cta" href="#contact">Get a free estimate <span>↗</span></a>
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -697,7 +693,7 @@ export default function Home() {
           </SheetContent>
         </Sheet>
       </header>
-      {mobileMenuOpen && <div className="mobile-drawer" onClick={() => setMobileMenuOpen(false)}><div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}><div className="mobile-drawer-header"><span className="logo">HARDY PAINTWORKS</span><button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">×</button></div><nav className="mobile-nav-links"><a href="#work" onClick={() => setMobileMenuOpen(false)}>01 / Selected work</a><a href="#services" onClick={() => setMobileMenuOpen(false)}>02 / Painting services</a><a href="#gallery" onClick={() => setMobileMenuOpen(false)}>03 / Art gallery</a><a href="#color" onClick={() => setMobileMenuOpen(false)}>04 / Color + design</a><a href="#contact" onClick={() => setMobileMenuOpen(false)}>05 / Request an estimate</a></nav><a className="button dark" href="tel:+15188474071">Call 1 518 847 4071 ↗</a></div></div>}
+      {mobileMenuOpen && <div className="mobile-drawer" onClick={() => setMobileMenuOpen(false)}><div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}><div className="mobile-drawer-header"><span className="logo">HARDY PAINTWORKS</span><button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">×</button></div><nav className="mobile-nav-links"><a href="#work" onClick={() => setMobileMenuOpen(false)}>01 / Selected work</a><a href="#services" onClick={() => setMobileMenuOpen(false)}>02 / Painting services</a><a href="#gallery" onClick={() => setMobileMenuOpen(false)}>03 / Art gallery</a><a href="#contact" onClick={() => setMobileMenuOpen(false)}>04 / Request an estimate</a></nav><a className="button dark" href="tel:+15188474071">Call 1 518 847 4071 ↗</a></div></div>}
       <section className="hero" id="top">
         <div className="hero-copy">
           <h1 className="hero-title">
