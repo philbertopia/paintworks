@@ -39,7 +39,6 @@ export default function FlyerPage() {
         <div className="flyer-qr-block">
           <p className="flyer-contact-label">SCAN TO CONTACT</p>
           <img src="/qr-code-paintworks-correct.png" alt="QR code linking to Hudson Valley Paintworks" />
-          <p className="flyer-contact-copy">Email us to get a hold of us.</p>
         </div>
       </section>
     </main>
