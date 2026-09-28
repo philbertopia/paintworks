@@ -74,7 +74,10 @@ export async function POST(request: Request) {
 
   const apiKey = process.env.RESEND_API_KEY
   const to = process.env.CONTACT_EMAIL
-  const from = process.env.RESEND_FROM_EMAIL || 'Hudson Valley Paintworks <onboarding@resend.dev>'
+  const configuredFrom = process.env.RESEND_FROM_EMAIL?.trim() || ''
+  const from = /^(?:[^<>]+\s)?<[^<>@\s]+@[^<>@\s]+\.[^<>@\s]+>|^[^<>@\s]+@[^<>@\s]+\.[^<>@\s]+$/.test(configuredFrom)
+    ? configuredFrom
+    : 'Hudson Valley Paintworks <onboarding@resend.dev>'
   if (!apiKey || !to) return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
 
   const photoText = storedPhotos.length ? `\nPrivate photo uploads: ${storedPhotos.join(', ')}` : ''
@@ -93,6 +96,10 @@ export async function POST(request: Request) {
     }),
   })
 
-  if (!response.ok) return NextResponse.json({ error: 'We could not send your message right now. Please try again through the form.' }, { status: 502 })
+  if (!response.ok) {
+    const resendError = await response.text()
+    console.error('Resend contact email failed', response.status, resendError)
+    return NextResponse.json({ error: 'The email service is not accepting the configured sender address yet. Please try again later.' }, { status: 502 })
+  }
   return NextResponse.json({ ok: true })
 }
