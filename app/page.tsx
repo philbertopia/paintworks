@@ -521,7 +521,13 @@ export default function Home() {
         },
         body: formData,
       })
-      const result = await response.json()
+      const responseText = await response.text()
+      let result: { error?: string } = {}
+      try {
+        result = responseText ? JSON.parse(responseText) as { error?: string } : {}
+      } catch {
+        result = {}
+      }
       if (!response.ok) throw new Error(result.error || 'Something went wrong.')
       setSent(true)
       e.currentTarget.reset()
