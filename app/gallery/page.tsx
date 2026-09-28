@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import '../globals.css'
+import './gallery.css'
 
 export const metadata: Metadata = {
-  title: 'Portfolio | Hudson Valley Paintworks',
-  description: 'A portfolio of fine interior and exterior painting, murals, decorative finishes, and artwork by Hudson Valley Paintworks.',
+  title: 'Hudson Valley Art Gallery | Original Paintings',
+  description: 'Original paintings from Philip Hardy and artists connected to the Hudson Valley, including landscapes, abstract studies, portraits, and animal artwork.',
   alternates: { canonical: '/gallery' },
 }
 
@@ -23,20 +24,26 @@ const artwork = [
   { image: '/images/artwork-siblings-under-tree.png', title: 'Under the Tree', meta: 'Family portrait / original painting', alt: 'Original painted portrait of two siblings under a tree' },
 ]
 
+const gallerySections = [
+  { id: 'abstract', title: 'Abstract + mixed media', intro: 'Layered color, gesture, and texture for rooms that want a point of view.', items: artwork.slice(0, 3) },
+  { id: 'landscapes', title: 'Hudson Valley landscapes', intro: 'Painted studies of river, field, weather, and the particular light of this place.', items: artwork.slice(3, 7) },
+  { id: 'portraits', title: 'Portraits + animals', intro: 'Personal paintings made to keep a person, animal, or feeling close.', items: artwork.slice(7) },
+]
+
 export default function GalleryPage() {
   return <main className="gallery-page">
     <header className="site-header">
-      <Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></Link>
-    <nav><Link href="/">Home</Link><Link href="/#services">Painting</Link><Link href="/gallery">Gallery</Link></nav>
-      <a className="header-phone" href="tel:+15188474071">Call for a free estimate · 1 518 847 4071</a>
-      <Link className="header-cta" href="/#contact">Get a free estimate <span>↗</span></Link>
+      <Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING &amp; DESIGN</span></Link>
+      <nav><Link href="/">Home</Link><Link href="/#services">Painting</Link><Link href="/gallery">Gallery</Link></nav>
+      <Link className="header-cta" href="/#contact">Ask about a piece <span>↗</span></Link>
     </header>
     <section className="gallery-page-intro section-pad">
       <div className="section-label">Gallery / Original artwork</div>
-      <div className="gallery-page-heading"><h1>A ROOM<br />FOR <i>GOOD ART.</i></h1><div><p className="gallery-page-lead">Hudson Valley landscapes, abstract studies, and artwork made to be lived with.</p><p>A growing collection of original paintings by Philip Hardy and artists we admire. Every piece is available for inquiry, consultation, framing, and thoughtful installation.</p><Link className="button dark" href="/#contact">Ask about a piece <span>↗</span></Link></div></div>
+      <div className="gallery-page-heading"><h1>ART FROM<br />THE <i>VALLEY.</i></h1><div><p className="gallery-page-lead">Original paintings from Philip Hardy and artists connected to the Hudson Valley.</p><p>Landscapes, abstract studies, portraits, and animal paintings selected to be lived with. Ask about availability, framing, color, and thoughtful installation.</p><Link className="button dark" href="/#contact">Ask about a piece <span>↗</span></Link></div></div>
     </section>
-    <section className="gallery-page-grid section-pad" aria-label="Artwork for sale">{artwork.map((item, index) => <article className={index === 0 ? 'gallery-art-card gallery-art-card-feature' : 'gallery-art-card'} key={item.image}><div className="gallery-art-image"><img src={item.image} alt={item.alt} /></div><div className="gallery-art-meta"><span>0{index + 1}</span><div><h2>{item.title}</h2><p>{item.meta}</p></div><Link href="/#contact" aria-label={`Ask about ${item.title}`}>↗</Link></div></article>)}</section>
+    <nav className="gallery-category-nav" aria-label="Gallery categories">{gallerySections.map((section) => <a href={`#${section.id}`} key={section.id}>{section.title}</a>)}</nav>
+    <div className="gallery-collections">{gallerySections.map((section, sectionIndex) => <section className="gallery-collection" id={section.id} key={section.id} aria-labelledby={`${section.id}-heading`}><div className="gallery-collection-heading"><div><div className="section-label">Collection / 0{sectionIndex + 1}</div><h2 id={`${section.id}-heading`}>{section.title}</h2></div><p>{section.intro}</p></div><div className="gallery-page-grid">{section.items.map((item, index) => <article className={index === 0 ? 'gallery-art-card gallery-art-card-feature' : 'gallery-art-card'} key={item.image}><div className="gallery-art-image"><img src={item.image} alt={item.alt} loading={sectionIndex === 0 && index === 0 ? 'eager' : 'lazy'} /></div><div className="gallery-art-meta"><span>{String(sectionIndex * 4 + index + 1).padStart(2, '0')}</span><div><h3>{item.title}</h3><p>{item.meta}</p><Link className="gallery-art-inquiry" href="/#contact">Ask about this piece ↗</Link></div></div></article>)}</div></section>)}</div>
     <section className="gallery-page-services section-pad"><div><div className="section-label">Art / Installation + care</div><h2>FROM THE FIRST <i>YES</i><br />TO THE LAST NAIL.</h2></div><div><p>Art belongs to the room around it. We can help with sourcing, scale, color, framing, finish carpentry, patching, restoration, and careful installation.</p><Link className="button light" href="/#contact">Talk about an artwork <span>↗</span></Link></div></section>
-    <footer><Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></Link><p>Kingston · Woodstock · Saugerties · Rhinebeck<br />Red Hook · New Paltz · Hudson Valley</p><p><a href="tel:+15188474071">Call for a free estimate<br />1 518 847 4071 ↗</a><br />© 2026 Hudson Valley Paintworks<br /><Link href="/#contact">Send an inquiry ↗</Link></p></footer>
+    <footer><Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING &amp; DESIGN</span></Link><p>Kingston · Woodstock · Saugerties · Rhinebeck<br />Red Hook · New Paltz · Hudson Valley</p><p>© 2026 Hudson Valley Paintworks<br /><Link href="/#contact">Send an inquiry ↗</Link></p></footer>
   </main>
 }
