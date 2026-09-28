@@ -1,4 +1,10 @@
 import './flyer.css'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Hudson Valley Paintworks Flyer',
+  robots: { index: false, follow: false },
+}
 
 function PaintworksLogo() {
   return (

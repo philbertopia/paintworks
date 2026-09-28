@@ -1,5 +1,12 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import '../globals.css'
+
+export const metadata: Metadata = {
+  title: 'Portfolio | Hudson Valley Paintworks',
+  description: 'A portfolio of fine interior and exterior painting, murals, decorative finishes, and artwork by Hudson Valley Paintworks.',
+  alternates: { canonical: '/gallery' },
+}
 
 const artwork = [
   { image: '/images/artwork-geometric-navy-rose.png', title: 'Geometric Study', meta: 'Original painting / mixed media', alt: 'Original geometric abstract painting in navy, rose, cream, and ochre' },

@@ -2,13 +2,15 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://hardypaintworks.com'),
+  metadataBase: new URL('https://paintworks-nine.vercel.app'),
   title: 'Hudson Valley Paintworks — Fine Painting & Design | Hudson Valley, NY',
   description: 'Fine painting, decorative finishes, custom murals, and architectural color design led by an MFA artist. Serving Kingston, Rhinebeck, Woodstock, and the Hudson Valley.',
+  alternates: { canonical: '/' },
+  robots: { index: true, follow: true },
   openGraph: {
     title: 'Hudson Valley Paintworks — Fine Painting & Design',
     description: 'Fine painting, decorative finishes, custom murals, and architectural color design led by an MFA artist in the Hudson Valley.',
-    url: 'https://hardypaintworks.com',
+    url: 'https://paintworks-nine.vercel.app',
     siteName: 'Hudson Valley Paintworks',
     images: [
       {
@@ -33,7 +35,9 @@ const jsonLd = {
   '@type': 'HomeAndConstructionBusiness',
   name: 'Hudson Valley Paintworks',
   description: 'Fine residential and commercial painting, decorative finishes, custom murals, and architectural color design in the Hudson Valley.',
-  telephone: '+1-518-847-4071',
+  url: 'https://paintworks-nine.vercel.app',
+  email: 'hudsonvalleypaintworks@proton.me',
+  image: 'https://paintworks-nine.vercel.app/images/upstate-exterior-repaint.png',
   areaServed: [
     { '@type': 'AdministrativeArea', name: 'Kingston, NY' },
     { '@type': 'AdministrativeArea', name: 'Rhinebeck, NY' },
