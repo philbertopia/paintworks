@@ -61,21 +61,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'One of the uploaded files is not a valid image.' }, { status: 400 })
     }
 
+    let optimized: Buffer
     try {
-      const optimized = await sharp(source)
+      optimized = await sharp(source)
         .rotate()
         .resize({ width: 3000, height: 3000, fit: 'inside', withoutEnlargement: true })
         .jpeg({ quality: 84, mozjpeg: true })
         .toBuffer()
-      outgoingBytes += optimized.byteLength
-      if (outgoingBytes > MAX_TOTAL_BYTES) {
-        return NextResponse.json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
-      }
-      await put(`contact-uploads/${crypto.randomUUID()}.jpg`, optimized, { access: 'private', contentType: 'image/jpeg', addRandomSuffix: false })
-      outgoing.append('attachment', new Blob([optimized], { type: 'image/jpeg' }), `project-photo-${index + 1}.jpg`)
     } catch {
       return NextResponse.json({ error: 'One of the photos could not be processed. Please try another image.' }, { status: 400 })
     }
+
+    outgoingBytes += optimized.byteLength
+    if (outgoingBytes > MAX_TOTAL_BYTES) {
+      return NextResponse.json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
+    }
+
+    try {
+      await put(`contact-uploads/${crypto.randomUUID()}.jpg`, optimized, { access: 'private', contentType: 'image/jpeg', addRandomSuffix: false })
+    } catch (error) {
+      console.error('Private Blob archival failed; continuing with secure validated email attachment', error)
+    }
+    outgoing.append('attachment', new Blob([optimized], { type: 'image/jpeg' }), `project-photo-${index + 1}.jpg`)
   }
 
   const contactEmail = process.env.CONTACT_EMAIL
