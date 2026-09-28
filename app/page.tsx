@@ -515,6 +515,7 @@ export default function Home() {
     const form = e.currentTarget
     try {
       const formData = new FormData(form)
+      const hasPhotos = Boolean(form.querySelector<HTMLInputElement>('input[name="attachment"]')?.files?.length)
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -530,6 +531,27 @@ export default function Home() {
         result = {}
       }
       if (!response.ok) throw new Error(result.error || 'Something went wrong.')
+
+      if (hasPhotos) {
+        const frameName = `formsubmit-${Date.now()}`
+        const frame = document.createElement('iframe')
+        frame.name = frameName
+        frame.title = 'Form submission status'
+        frame.style.display = 'none'
+        document.body.appendChild(frame)
+        frame.addEventListener('load', () => {
+          setSent(true)
+          form.reset()
+          setProjectMessage('')
+          frame.remove()
+        }, { once: true })
+        form.action = 'https://formsubmit.co/hudsonvalleypaintworks@proton.me'
+        form.method = 'POST'
+        form.enctype = 'multipart/form-data'
+        form.target = frameName
+        HTMLFormElement.prototype.submit.call(form)
+        return
+      }
 
       const deliveryResponse = await fetch('https://formsubmit.co/ajax/hudsonvalleypaintworks@proton.me', {
         method: 'POST',
@@ -951,7 +973,7 @@ export default function Home() {
         alt="Abstract hand-painted wall mural in warm pink, umber, ochre, and navy tones"
       />
     </div>
-    <section className="contact" id="contact"><div><div className="section-label">05 / Let&apos;s make a plan</div><h2>MAKE THE<br /><i>SPACE FEEL</i><br />RIGHT.</h2><p>Tell us a little about your project. Project photos are welcome.</p></div><form onSubmit={submit}>{sent ? <div className="thanks"><span>✳</span><h3>Thank you.</h3><p>Your note is in. We&apos;ll be in touch soon.</p></div> : <><label>Name<input required name="name" /></label><label>Email<input required type="email" name="email" /></label><label>Tell us about the project<textarea required name="message" rows={3} /></label><label className="photo-upload-label">Project photos (optional)<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple /><small>Attach up to 3 photos: JPG, PNG, or WebP only. Maximum 4 MB per photo and 10 MB total. Please do not upload documents or sensitive personal information.</small></label><input className="form-trap" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" /><button className="button light" type="submit" disabled={sending}>{sending ? 'Sending...' : <>Send inquiry <span>↗</span></>}</button>{formError && <p className="form-error" role="alert">{formError}</p>}</>}</form></section>
+    <section className="contact" id="contact"><div><div className="section-label">05 / Let&apos;s make a plan</div><h2>MAKE THE<br /><i>SPACE FEEL</i><br />RIGHT.</h2><p>Tell us a little about your project. Project photos are welcome.</p></div><form onSubmit={submit}>{sent ? <div className="thanks"><span>✳</span><h3>Thank you.</h3><p>Your note is in. We&apos;ll be in touch soon.</p></div> : <><label>Name<input required name="name" /></label><label>Email<input required type="email" name="email" /></label><label>Tell us about the project<textarea required name="message" rows={3} /></label><label className="photo-upload-label">Project photos (optional)<input type="file" name="attachment" accept="image/jpeg,image/png,image/webp" multiple /><small>Attach up to 3 photos: JPG, PNG, or WebP only. Maximum 4 MB per photo and 10 MB total. Please do not upload documents or sensitive personal information.</small></label><input className="form-trap" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" /><button className="button light" type="submit" disabled={sending}>{sending ? 'Sending...' : <>Send inquiry <span>↗</span></>}</button>{formError && <p className="form-error" role="alert">{formError}</p>}</>}</form></section>
 
     <footer><a className="logo" href="#top"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING & DESIGN</span></a><p>Kingston · Woodstock · Saugerties · Rhinebeck<br />Red Hook · New Paltz · Hudson Valley</p><p><a href="tel:+15188474071">Call for a free estimate<br />1 518 847 4071 ↗</a><br />© 2026 Hudson Valley Paintworks<br /><a href="#contact">Send an inquiry ↗</a></p></footer>
     <a className="sticky-cta" href="tel:+15188474071">Call for a free estimate <span>↗</span></a>
@@ -1221,7 +1243,7 @@ export default function Home() {
 
               <label className="photo-upload-label">
                 Project photos (optional)
-                <input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple />
+                <input type="file" name="attachment" accept="image/jpeg,image/png,image/webp" multiple />
                 <small>Attach up to 3 photos: JPG, PNG, or WebP only. Maximum 4 MB per photo and 10 MB total. Please do not upload documents or sensitive personal information.</small>
               </label>
 

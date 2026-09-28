@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   const service = text(form.get('service'))
   const message = text(form.get('message'))
   const honeypot = text(form.get('website'))
-  const files = form.getAll('photos').filter((value): value is File => value instanceof File && value.size > 0)
+  const files = form.getAll('attachment').filter((value): value is File => value instanceof File && value.size > 0)
 
   if (honeypot) return NextResponse.json({ ok: true })
   if (!name || !email || !message || !/^\S+@\S+\.\S+$/.test(email)) {
