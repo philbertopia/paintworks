@@ -6,11 +6,10 @@ export const runtime = 'nodejs'
 
 const MAX_FILES = 3
 const MAX_FILE_BYTES = 4 * 1024 * 1024
-const MAX_TOTAL_BYTES = 20 * 1024 * 1024
+const MAX_TOTAL_BYTES = 9 * 1024 * 1024
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
 const text = (value: FormDataEntryValue | null) => typeof value === 'string' ? value.trim() : ''
-const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]!)
 
 function hasValidSignature(buffer: Buffer, type: string) {
   if (type === 'image/jpeg') return buffer.length > 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff
@@ -39,19 +38,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Please keep your message a little shorter.' }, { status: 400 })
   }
   if (files.length > MAX_FILES) return NextResponse.json({ error: 'Please upload no more than three photos.' }, { status: 400 })
-  if (files.reduce((total, file) => total + file.size, 0) > MAX_TOTAL_BYTES) {
-    return NextResponse.json({ error: 'Please keep all uploaded photos under 20 MB total.' }, { status: 400 })
+  if (files.some((file) => !ALLOWED_TYPES.has(file.type) || file.size > MAX_FILE_BYTES)) {
+    return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
   }
 
-  const attachments: { filename: string; content: string }[] = []
-  const storedPhotos: string[] = []
+  const outgoing = new FormData()
+  outgoing.set('name', name)
+  outgoing.set('email', email)
+  outgoing.set('location', location)
+  outgoing.set('service', service)
+  outgoing.set('message', message)
+  outgoing.set('_subject', `New Hudson Valley Paintworks inquiry from ${name}`)
+  outgoing.set('_replyto', email)
+  outgoing.set('_captcha', 'true')
+  outgoing.set('_honey', '')
 
+  let outgoingBytes = 0
   for (let index = 0; index < files.length; index += 1) {
     const file = files[index]
-    if (!ALLOWED_TYPES.has(file.type) || file.size > MAX_FILE_BYTES) {
-      return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
-    }
-
     const source = Buffer.from(await file.arrayBuffer())
     if (!hasValidSignature(source, file.type)) {
       return NextResponse.json({ error: 'One of the uploaded files is not a valid image.' }, { status: 400 })
@@ -63,43 +67,26 @@ export async function POST(request: Request) {
         .resize({ width: 3000, height: 3000, fit: 'inside', withoutEnlargement: true })
         .jpeg({ quality: 84, mozjpeg: true })
         .toBuffer()
-      const pathname = `contact-uploads/${crypto.randomUUID()}.jpg`
-      await put(pathname, optimized, { access: 'private', contentType: 'image/jpeg', addRandomSuffix: false })
-      storedPhotos.push(pathname)
-      attachments.push({ filename: `project-photo-${index + 1}.jpg`, content: optimized.toString('base64') })
+      outgoingBytes += optimized.byteLength
+      if (outgoingBytes > MAX_TOTAL_BYTES) {
+        return NextResponse.json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
+      }
+      await put(`contact-uploads/${crypto.randomUUID()}.jpg`, optimized, { access: 'private', contentType: 'image/jpeg', addRandomSuffix: false })
+      outgoing.append('attachment', new Blob([optimized], { type: 'image/jpeg' }), `project-photo-${index + 1}.jpg`)
     } catch {
       return NextResponse.json({ error: 'One of the photos could not be processed. Please try another image.' }, { status: 400 })
     }
   }
 
-  const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.CONTACT_EMAIL
-  const configuredFrom = process.env.RESEND_FROM_EMAIL?.trim() || ''
-  const from = /^(?:[^<>]+\s)?<[^<>@\s]+@[^<>@\s]+\.[^<>@\s]+>|^[^<>@\s]+@[^<>@\s]+\.[^<>@\s]+$/.test(configuredFrom)
-    ? configuredFrom
-    : 'Hudson Valley Paintworks <onboarding@resend.dev>'
-  if (!apiKey || !to) return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
+  const contactEmail = process.env.CONTACT_EMAIL
+  if (!contactEmail) return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
 
-  const photoText = storedPhotos.length ? `\nPrivate photo uploads: ${storedPhotos.join(', ')}` : ''
-  const photoHtml = storedPhotos.length ? `<p><strong>Private photo uploads:</strong> ${storedPhotos.length} attached image${storedPhotos.length === 1 ? '' : 's'}</p>` : ''
-  const response = await fetch('https://api.resend.com/emails', {
+  const response = await fetch(`https://formsubmit.co/${encodeURIComponent(contactEmail)}`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'User-Agent': 'hardy-paintworks-contact-form' },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: email,
-      subject: `New Hudson Valley Paintworks inquiry from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nLocation: ${location || 'Not provided'}\nService: ${service || 'General inquiry'}${photoText}\n\nMessage:\n${message}`,
-      html: `<h2>New Hudson Valley Paintworks inquiry</h2><p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p><p><strong>Location:</strong> ${escapeHtml(location || 'Not provided')}</p><p><strong>Service:</strong> ${escapeHtml(service || 'General inquiry')}</p>${photoHtml}<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, '<br />')}</p>`,
-      attachments,
-    }),
+    headers: { Accept: 'application/json' },
+    body: outgoing,
   })
 
-  if (!response.ok) {
-    const resendError = await response.text()
-    console.error('Resend contact email failed', response.status, resendError)
-    return NextResponse.json({ error: 'The email service is not accepting the configured sender address yet. Please try again later.' }, { status: 502 })
-  }
+  if (!response.ok) return NextResponse.json({ error: 'We could not send your message right now. Please try again through the form.' }, { status: 502 })
   return NextResponse.json({ ok: true })
 }
