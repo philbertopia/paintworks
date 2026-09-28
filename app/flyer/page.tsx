@@ -31,7 +31,7 @@ export default function FlyerPage() {
         <h1>Painting with an artist&apos;s eye.</h1>
         <div className="flyer-service-copy">
           <strong>RESIDENTIAL + COMMERCIAL PAINTING</strong>
-          <p>Careful interior and exterior painting for homes, businesses, and hospitality spaces—plus cabinet refinishing, murals, and decorative finishes.</p>
+          <p>Careful interior and exterior painting for homes, businesses, and hospitality spaces. We handle thoughtful surface preparation, color consultation, clean lines, cabinet refinishing, murals, and decorative finishes from start to final detail.</p>
         </div>
       </section>
 
