@@ -1,4 +1,3 @@
-import { put } from '@vercel/blob'
 import sharp from 'sharp'
 import { NextResponse } from 'next/server'
 
@@ -66,11 +65,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
     }
 
-    try {
-      await put(`contact-uploads/${crypto.randomUUID()}.jpg`, optimized, { access: 'private', contentType: 'image/jpeg', addRandomSuffix: false })
-    } catch (error) {
-      console.error('Private Blob archival failed; continuing with secure validated email attachment', error)
-    }
     void index
   }
 
