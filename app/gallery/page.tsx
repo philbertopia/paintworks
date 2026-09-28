@@ -4,7 +4,7 @@ import '../globals.css'
 import './gallery.css'
 
 export const metadata: Metadata = {
-  title: 'Hudson Valley Art Gallery | Original Paintings',
+  title: 'Paintworks Gallery | Hudson Valley Original Art',
   description: 'Original paintings from Philip Hardy and artists connected to the Hudson Valley, including landscapes, abstract studies, portraits, and animal artwork.',
   alternates: { canonical: '/gallery' },
 }
@@ -38,11 +38,12 @@ export default function GalleryPage() {
       <Link className="header-cta" href="/#contact">Ask about a piece <span>↗</span></Link>
     </header>
     <section className="gallery-page-intro section-pad">
-      <div className="section-label">Gallery / Original artwork</div>
+      <div className="section-label">Paintworks Gallery / Original artwork</div>
       <div className="gallery-page-heading"><h1>ART FROM<br />THE <i>VALLEY.</i></h1><div><p className="gallery-page-lead">Original paintings from Philip Hardy and artists connected to the Hudson Valley.</p><p>Landscapes, abstract studies, portraits, and animal paintings selected to be lived with. Ask about availability, framing, color, and thoughtful installation.</p><Link className="button dark" href="/#contact">Ask about a piece <span>↗</span></Link></div></div>
     </section>
     <nav className="gallery-category-nav" aria-label="Gallery categories">{gallerySections.map((section) => <a href={`#${section.id}`} key={section.id}>{section.title}</a>)}</nav>
     <div className="gallery-collections">{gallerySections.map((section, sectionIndex) => <section className="gallery-collection" id={section.id} key={section.id} aria-labelledby={`${section.id}-heading`}><div className="gallery-collection-heading"><div><div className="section-label">Collection / 0{sectionIndex + 1}</div><h2 id={`${section.id}-heading`}>{section.title}</h2></div><p>{section.intro}</p></div><div className="gallery-page-grid">{section.items.map((item, index) => <article className={index === 0 ? 'gallery-art-card gallery-art-card-feature' : 'gallery-art-card'} key={item.image}><div className="gallery-art-image"><img src={item.image} alt={item.alt} loading={sectionIndex === 0 && index === 0 ? 'eager' : 'lazy'} /></div><div className="gallery-art-meta"><span>{String(sectionIndex * 4 + index + 1).padStart(2, '0')}</span><div><h3>{item.title}</h3><p>{item.meta}</p><Link className="gallery-art-inquiry" href="/#contact">Ask about this piece ↗</Link></div></div></article>)}</div></section>)}</div>
+    <section className="gallery-painting-cta section-pad"><div><div className="section-label">Paintworks / House painting</div><h2>GOOD ART<br />NEEDS A <i>GOOD ROOM.</i></h2></div><div><p>Paintworks also creates thoughtful interiors, exteriors, murals, and finishes for Hudson Valley homes and businesses.</p><Link className="button dark" href="/#services">Explore house painting <span>↗</span></Link></div></section>
     <section className="gallery-page-services section-pad"><div><div className="section-label">Art / Installation + care</div><h2>FROM THE FIRST <i>YES</i><br />TO THE LAST NAIL.</h2></div><div><p>Art belongs to the room around it. We can help with sourcing, scale, color, framing, finish carpentry, patching, restoration, and careful installation.</p><Link className="button light" href="/#contact">Talk about an artwork <span>↗</span></Link></div></section>
     <footer><Link className="logo" href="/"><span className="logo-region">HUDSON VALLEY</span> PAINTWORKS<span>FINE PAINTING &amp; DESIGN</span></Link><p>Kingston · Woodstock · Saugerties · Rhinebeck<br />Red Hook · New Paltz · Hudson Valley</p><p>© 2026 Hudson Valley Paintworks<br /><Link href="/#contact">Send an inquiry ↗</Link></p></footer>
   </main>
