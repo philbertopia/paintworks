@@ -6,7 +6,12 @@ export const runtime = 'nodejs'
 const MAX_FILES = 3
 const MAX_FILE_BYTES = 4 * 1024 * 1024
 const MAX_TOTAL_BYTES = 9 * 1024 * 1024
+const MAX_REQUEST_BYTES = 10 * 1024 * 1024 + 512 * 1024
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
+const ALLOWED_ORIGINS = new Set(['https://paintworks-nine.vercel.app', 'http://localhost:3000'])
+const RATE_WINDOW_MS = 60 * 1000
+const RATE_LIMIT = 5
+const attempts = new Map<string, { count: number; resetAt: number }>()
 
 const text = (value: FormDataEntryValue | null) => typeof value === 'string' ? value.trim() : ''
 
@@ -17,9 +22,47 @@ function hasValidSignature(buffer: Buffer, type: string) {
   return false
 }
 
+function json(data: Record<string, unknown>, init?: ResponseInit) {
+  return NextResponse.json(data, {
+    ...init,
+    headers: { 'Cache-Control': 'no-store', ...(init?.headers ?? {}) },
+  })
+}
+
 export async function POST(request: Request) {
+  const origin = request.headers.get('origin')
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return json({ error: 'This form can only be submitted from the Paintworks website.' }, { status: 403 })
+  }
+
+  const contentLength = Number(request.headers.get('content-length') ?? 0)
+  if (contentLength > MAX_REQUEST_BYTES) {
+    return json({ error: 'Please keep the total upload under 10 MB.' }, { status: 413 })
+  }
+
+  const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+  const clientKey = forwardedFor || request.headers.get('x-real-ip') || 'unknown'
+  const now = Date.now()
+  const current = attempts.get(clientKey)
+  if (!current || current.resetAt <= now) {
+    if (attempts.size > 2000) {
+      for (const [key, entry] of attempts) {
+        if (entry.resetAt <= now) attempts.delete(key)
+      }
+    }
+    attempts.set(clientKey, { count: 1, resetAt: now + RATE_WINDOW_MS })
+  } else {
+    current.count += 1
+    if (current.count > RATE_LIMIT) {
+      return json({ error: 'Too many submissions. Please wait a minute and try again.' }, {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((current.resetAt - now) / 1000)) },
+      })
+    }
+  }
+
   const form = await request.formData().catch(() => null)
-  if (!form) return NextResponse.json({ error: 'Please submit the form again.' }, { status: 400 })
+  if (!form) return json({ error: 'Please submit the form again.' }, { status: 400 })
 
   const name = text(form.get('name'))
   const email = text(form.get('email'))
@@ -29,16 +72,16 @@ export async function POST(request: Request) {
   const honeypot = text(form.get('website'))
   const files = form.getAll('attachment').filter((value): value is File => value instanceof File && value.size > 0)
 
-  if (honeypot) return NextResponse.json({ ok: true })
+  if (honeypot) return json({ ok: true })
   if (!name || !email || !message || !/^\S+@\S+\.\S+$/.test(email)) {
-    return NextResponse.json({ error: 'Please enter your name, a valid email, and a project message.' }, { status: 400 })
+    return json({ error: 'Please enter your name, a valid email, and a project message.' }, { status: 400 })
   }
   if (name.length > 120 || email.length > 254 || message.length > 5000) {
-    return NextResponse.json({ error: 'Please keep your message a little shorter.' }, { status: 400 })
+    return json({ error: 'Please keep your message a little shorter.' }, { status: 400 })
   }
-  if (files.length > MAX_FILES) return NextResponse.json({ error: 'Please upload no more than three photos.' }, { status: 400 })
+  if (files.length > MAX_FILES) return json({ error: 'Please upload no more than three photos.' }, { status: 400 })
   if (files.some((file) => !ALLOWED_TYPES.has(file.type) || file.size > MAX_FILE_BYTES)) {
-    return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
+    return json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
   }
 
   let outgoingBytes = 0
@@ -46,7 +89,7 @@ export async function POST(request: Request) {
     const file = files[index]
     const source = Buffer.from(await file.arrayBuffer())
     if (!hasValidSignature(source, file.type)) {
-      return NextResponse.json({ error: 'One of the uploaded files is not a valid image.' }, { status: 400 })
+      return json({ error: 'One of the uploaded files is not a valid image.' }, { status: 400 })
     }
 
     let optimized: Buffer
@@ -57,16 +100,16 @@ export async function POST(request: Request) {
         .jpeg({ quality: 84, mozjpeg: true })
         .toBuffer()
     } catch {
-      return NextResponse.json({ error: 'One of the photos could not be processed. Please try another image.' }, { status: 400 })
+      return json({ error: 'One of the photos could not be processed. Please try another image.' }, { status: 400 })
     }
 
     outgoingBytes += optimized.byteLength
     if (outgoingBytes > MAX_TOTAL_BYTES) {
-      return NextResponse.json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
+      return json({ error: 'Please keep the uploaded photos under 10 MB total.' }, { status: 400 })
     }
 
     void index
   }
 
-  return NextResponse.json({ ok: true })
+  return json({ ok: true })
 }
