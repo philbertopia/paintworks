@@ -512,8 +512,9 @@ export default function Home() {
     e.preventDefault()
     setSending(true)
     setFormError('')
+    const form = e.currentTarget
     try {
-      const formData = new FormData(e.currentTarget)
+      const formData = new FormData(form)
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -521,16 +522,30 @@ export default function Home() {
         },
         body: formData,
       })
-      const responseText = await response.text()
+      const validationText = await response.text()
       let result: { error?: string } = {}
       try {
-        result = responseText ? JSON.parse(responseText) as { error?: string } : {}
+        result = validationText ? JSON.parse(validationText) as { error?: string } : {}
       } catch {
         result = {}
       }
       if (!response.ok) throw new Error(result.error || 'Something went wrong.')
+
+      const deliveryResponse = await fetch('https://formsubmit.co/ajax/hudsonvalleypaintworks@proton.me', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      })
+      const deliveryText = await deliveryResponse.text()
+      let deliveryResult: { error?: string } = {}
+      try {
+        deliveryResult = deliveryText ? JSON.parse(deliveryText) as { error?: string } : {}
+      } catch {
+        deliveryResult = {}
+      }
+      if (!deliveryResponse.ok) throw new Error(deliveryResult.error || 'We could not send your message right now.')
       setSent(true)
-      e.currentTarget.reset()
+      form.reset()
       setProjectMessage('')
     } catch (error) {
       setFormError(
@@ -538,7 +553,6 @@ export default function Home() {
           ? error.message
           : 'Please try again or send your inquiry through the contact form.'
       )
-      setFormError(error instanceof Error ? error.message : 'Please try again or send your inquiry through the contact form.')
     } finally {
       setSending(false)
     }

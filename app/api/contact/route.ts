@@ -42,17 +42,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Photos must be JPG, PNG, or WebP files under 4 MB each.' }, { status: 400 })
   }
 
-  const outgoing = new FormData()
-  outgoing.set('name', name)
-  outgoing.set('email', email)
-  outgoing.set('location', location)
-  outgoing.set('service', service)
-  outgoing.set('message', message)
-  outgoing.set('_subject', `New Hudson Valley Paintworks inquiry from ${name}`)
-  outgoing.set('_replyto', email)
-  outgoing.set('_captcha', 'true')
-  outgoing.set('_honey', '')
-
   let outgoingBytes = 0
   for (let index = 0; index < files.length; index += 1) {
     const file = files[index]
@@ -82,27 +71,8 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error('Private Blob archival failed; continuing with secure validated email attachment', error)
     }
-    outgoing.append('attachment', new Blob([optimized], { type: 'image/jpeg' }), `project-photo-${index + 1}.jpg`)
+    void index
   }
 
-  const contactEmail = process.env.CONTACT_EMAIL?.trim()
-  if (!contactEmail || !/^\S+@\S+\.\S+$/.test(contactEmail)) {
-    return NextResponse.json({ error: 'The contact form is not configured yet.' }, { status: 503 })
-  }
-
-  try {
-    const response = await fetch(`https://formsubmit.co/${contactEmail}`, {
-      method: 'POST',
-      headers: { Accept: 'application/json' },
-      body: outgoing,
-    })
-    if (!response.ok) {
-      console.error('FormSubmit contact email failed', response.status, await response.text())
-      return NextResponse.json({ error: 'We could not send your message right now. Please try again through the form.' }, { status: 502 })
-    }
-    return NextResponse.json({ ok: true })
-  } catch (error) {
-    console.error('FormSubmit request failed', error)
-    return NextResponse.json({ error: 'The email service could not be reached. Please try again in a moment.' }, { status: 502 })
-  }
+  return NextResponse.json({ ok: true })
 }
