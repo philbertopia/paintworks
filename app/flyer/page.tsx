@@ -1,5 +1,7 @@
 import './flyer.css'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Hudson Valley Paintworks Flyer',
@@ -16,7 +18,10 @@ function PaintworksLogo() {
   )
 }
 
-export default function FlyerPage() {
+export default async function FlyerPage() {
+  const host = (await headers()).get('host') ?? ''
+  if (host && !host.startsWith('localhost') && !host.startsWith('127.0.0.1')) notFound()
+
   return (
     <main className="flyer-page">
       <section className="flyer-header">
