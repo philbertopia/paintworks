@@ -37,8 +37,8 @@ export default function FlyerPage() {
 
       <section className="flyer-contact">
         <div>
-          <p className="flyer-contact-label">CALL FOR A FREE ESTIMATE</p>
-          <a className="flyer-phone" href="tel:+15188474071">1 518 847 4071</a>
+          <p className="flyer-contact-label">START A PROJECT</p>
+          <p className="flyer-contact-copy">Explore the work and send an inquiry online.</p>
         </div>
         <div className="flyer-qr-block">
           <p className="flyer-contact-label">SCAN TO EXPLORE</p>
