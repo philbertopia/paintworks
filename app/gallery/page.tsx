@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import '../globals.css'
 import './gallery.css'
+import './gallery-overrides.css'
 import GalleryBackdrop from './GalleryBackdrop'
 
 export const metadata: Metadata = {
