@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import '../globals.css'
 import './gallery.css'
+import GalleryBackdrop from './GalleryBackdrop'
 
 export const metadata: Metadata = {
   title: 'Paintworks Gallery | Hudson Valley Original Art',
@@ -38,6 +39,7 @@ export default function GalleryPage() {
       <Link className="header-cta" href="/#contact">Ask about a piece <span>↗</span></Link>
     </header>
     <section className="gallery-page-intro section-pad">
+      <GalleryBackdrop />
       <div className="section-label">Paintworks Gallery / Original artwork</div>
       <div className="gallery-page-heading"><h1>ART FROM<br />THE <i>VALLEY.</i></h1><div><p className="gallery-page-lead">Original paintings from Philip Hardy and artists connected to the Hudson Valley.</p><p>Landscapes, abstract studies, portraits, and animal paintings selected to be lived with. Ask about availability, framing, color, and thoughtful installation.</p><Link className="button dark" href="/#contact">Ask about a piece <span>↗</span></Link></div></div>
     </section>
