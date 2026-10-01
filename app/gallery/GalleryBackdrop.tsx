@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import './gallery-backdrop.css'
+import './gallery-mobile.css'
 
 const paintings = [
   '/images/artwork-geometric-navy-rose.png',

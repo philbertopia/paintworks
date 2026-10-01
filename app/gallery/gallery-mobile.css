@@ -1,0 +1,10 @@
+@media(max-width:800px){
+  .gallery-page-intro{min-height:720px;padding:82px 20px 72px;align-items:flex-end}
+  .gallery-page-intro>.section-label{display:block;width:100%;font-size:10px;line-height:1.4;letter-spacing:.1em;margin-bottom:28px}
+  .gallery-page-intro>.gallery-page-heading{display:block;width:100%;margin-top:0}
+  .gallery-page-heading h1{font-size:clamp(52px,16vw,78px);line-height:.88;letter-spacing:-.075em;margin:0 0 32px;max-width:100%}
+  .gallery-page-heading>div{padding:0;max-width:100%}
+  .gallery-page-lead{font-size:21px;line-height:1.2;max-width:30ch;margin:0 0 20px}
+  .gallery-page-heading>div>p:not(.gallery-page-lead){font-size:15px;line-height:1.5;max-width:36ch;margin:0}
+  .gallery-page-intro .button{margin-top:25px}
+}
