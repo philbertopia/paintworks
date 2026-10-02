@@ -9,6 +9,8 @@ const MAX_TOTAL_BYTES = 9 * 1024 * 1024
 const MAX_REQUEST_BYTES = 10 * 1024 * 1024 + 512 * 1024
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 const ALLOWED_ORIGINS = new Set(['https://paintworks-nine.vercel.app', 'http://localhost:3000'])
+const ALLOWED_LOCATIONS = new Set(['Kingston', 'Woodstock', 'Rhinebeck', 'Saugerties', 'Red Hook', 'New Paltz', 'Beacon / Hudson', 'Other Hudson Valley'])
+const ALLOWED_SERVICES = new Set(['Interior painting', 'Exterior painting', 'Murals + custom art', 'Cabinet refinishing', 'Decorative finishes', 'Color consultation'])
 const RATE_WINDOW_MS = 60 * 1000
 const RATE_LIMIT = 5
 const attempts = new Map<string, { count: number; resetAt: number }>()
@@ -31,7 +33,7 @@ function json(data: Record<string, unknown>, init?: ResponseInit) {
 
 export async function POST(request: Request) {
   const origin = request.headers.get('origin')
-  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+  if (!origin || !ALLOWED_ORIGINS.has(origin)) {
     return json({ error: 'This form can only be submitted from the Paintworks website.' }, { status: 403 })
   }
 
@@ -75,6 +77,9 @@ export async function POST(request: Request) {
   if (honeypot) return json({ ok: true })
   if (!name || !email || !message || !/^\S+@\S+\.\S+$/.test(email)) {
     return json({ error: 'Please enter your name, a valid email, and a project message.' }, { status: 400 })
+  }
+  if ((location && !ALLOWED_LOCATIONS.has(location)) || (service && !ALLOWED_SERVICES.has(service))) {
+    return json({ error: 'Please choose a valid location and service.' }, { status: 400 })
   }
   if (name.length > 120 || email.length > 254 || message.length > 5000) {
     return json({ error: 'Please keep your message a little shorter.' }, { status: 400 })
