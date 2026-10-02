@@ -30,6 +30,24 @@ const services = [
   'Spray finishing',
 ]
 
+const faqItems = [
+  { question: 'What areas does Hudson Valley Paintworks serve?', answer: 'We work throughout the Hudson Valley, including Kingston, Woodstock, Rhinebeck, Saugerties, Red Hook, New Paltz, Beacon, Hudson, and surrounding communities.' },
+  { question: 'Do you paint historic homes?', answer: 'Yes. We plan historic-home projects around careful preparation, appropriate color relationships, detailed trim work, and the character of the existing architecture.' },
+  { question: 'Do you offer color consultation?', answer: 'Yes. Color planning can include room-to-room palettes, exterior color direction, trim and door colors, material relationships, and how natural light changes throughout the day.' },
+  { question: 'Do you refinish kitchen cabinets?', answer: 'Yes. We refinish cabinets, islands, built-ins, and millwork with repaired, prepared, primed, and durable hand-finished or sprayed surfaces.' },
+  { question: 'Do you paint murals for businesses?', answer: 'Yes. We create site-specific murals, storefront graphics, and hand-painted artwork for restaurants, hospitality spaces, retail shops, studios, and creative businesses.' },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+}
+
 const serviceDetails = [
   { name: 'Interior painting', image: '/images/service-interior-painting.png', alt: 'Warmly finished Hudson Valley living room with painted walls and trim', description: 'Thoughtful wall, ceiling, trim, and room-by-room color work with clean lines and a finish that feels at home in the architecture.' },
   { name: 'Exterior painting', image: '/images/service-exterior-painting.png', alt: 'Freshly painted Hudson Valley home exterior with porch and shutters', description: 'Durable exterior color and careful trim work that protects the house while sharpening its character from the road.' },
@@ -1168,6 +1186,17 @@ export default function Home() {
               <strong>{x}</strong>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="faq section-pad" aria-labelledby="faq-heading">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+        <div className="faq-heading">
+          <div className="section-label">Questions / Before we begin</div>
+          <h2 id="faq-heading">A FEW <i>GOOD</i><br />QUESTIONS.</h2>
+        </div>
+        <div className="faq-list">
+          {faqItems.map((item) => <details key={item.question}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}
         </div>
       </section>
 

@@ -95,10 +95,19 @@ export default async function ServiceTownPage({ params }: { params: Promise<Page
     areaServed: { '@type': 'City', name: town.replace(/-ny$/, '').replaceAll('-', ' ') },
     image: `https://paintworks-nine.vercel.app${page.image}`,
   }
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paintworks-nine.vercel.app/' },
+      { '@type': 'ListItem', position: 2, name: page.title, item: `https://paintworks-nine.vercel.app/services/${service}/${town}` },
+    ],
+  }
 
   return (
     <main className="service-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <header className="service-page-header">
         <Link className="service-page-logo" href="/">HUDSON VALLEY PAINTWORKS</Link>
         <Link className="service-page-back" href="/#contact">Start a project ↗</Link>
